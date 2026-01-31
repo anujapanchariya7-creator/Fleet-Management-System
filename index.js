@@ -1,5 +1,6 @@
+import 'dotenv/config';
+
 import express from 'express';
-import dotenv from 'dotenv';
 import {logger} from "./middlewares/logger.middleware.js";
 import {notFoundMiddleware} from "./middlewares/notFound.middleware.js";
 
@@ -8,8 +9,8 @@ import vehicleRoutes from './routes/vehicle.routes.js';
 import analyticsRoutes from './routes/analytics.routes.js';
 import tripRoutes from './routes/trip.routes.js';
 
-dotenv.config();
 const app = express();
+
 
 app.use(express.json());
 app.use(logger);
@@ -19,7 +20,7 @@ app.use("/vehicles", vehicleRoutes);
 app.use("/analytics", analyticsRoutes);
 app.use("/trips", tripRoutes);
 
-app.use(notFound);
+app.use(notFoundMiddleware);
 app.listen(process.env.PORT, () => 
     console.log(`Server is running on port ${process.env.PORT}`)
 );
